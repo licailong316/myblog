@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from blog.views import post_list, post_detail
 from config.views import links
+from myblog.custom_site import custom_site
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('super_admin/', admin.site.urls),
+    path('admin/', custom_site.urls),
     path('', post_list, name='index'),  # 对应首页
     path('category/<int:category_id>/', post_list, name='category-list'),  # 分类列表
     path('tag/<int:tag_id>/', post_list, name='tag-list'),  # 标签列表
