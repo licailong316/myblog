@@ -22,9 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yq^9@d9@3yl^x#_!st&_3@at8ku!!dli$^w%8r_a19%rcs5ppz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-ALLOWED_HOSTS = ["licailong.cn", "www.licailong.cn", "127.0.0.1"]
 
 # Application definition
 
@@ -72,23 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myblog',
-        'HOST': '127.0.0.1',
-        'USER': 'licailong',
-        'PASSWORD': '316licailongLCL@',
-        'PORT': 3306,
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -124,7 +105,6 @@ USE_TZ = True
 # STATIC_URL = 'static/'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
