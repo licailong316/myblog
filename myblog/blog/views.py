@@ -6,8 +6,8 @@ from config.models import SideBar
 
 # Create your views here.
 def post_list(request, category_id=None, tag_id=None):
-    #     tag = None
-    #     category = None
+    tag = None
+    category = None
 
     if tag_id:
         try:
@@ -19,21 +19,20 @@ def post_list(request, category_id=None, tag_id=None):
     else:
         post_lists = Post.objects.filter(status=Post.STATUS_NORMAL)
         if category_id:
-            post_lists = post_lists.filter(category_id=category_id)
-            # try:
-            #     category = Category.objects.get(id=category_id)
-            # except Category.DoesNotExist:
-            #     category = None
-            # else:
-            #     post_lists = post_lists.filter(category_id=category_id)
+            try:
+                category = Category.objects.get(id=category_id)
+            except Category.DoesNotExist:
+                category = None
+            else:
+                post_lists = post_lists.filter(category_id=category_id)
 
-    # context = {
-    #     'category': category,
-    #     'tag': tag,
-    #     'post_list': post_lists,
-    # }
+    context = {
+        'category': category,
+        'tag': tag,
+        'post_list': post_lists,
+    }
 
-    return render(request, 'blog/list.html', context={'post_list': post_lists})
+    return render(request, 'blog/list.html', context=context)
 
 
 def post_detail(request, post_id):
