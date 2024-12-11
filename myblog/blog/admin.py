@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
+from myblog.base_admin import BaseOwnerAdmin
 from myblog.custom_site import custom_site
 from .models import Post, Category, Tag
 
@@ -19,7 +20,7 @@ class PostInline(admin.TabularInline):
 
 
 @admin.register(Category, site=custom_site)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
     inlines = [PostInline]
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count', 'owner')
     fields = ('name', 'status', 'is_nav',)
@@ -29,27 +30,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
     post_count.short_description = '文章数量'
 
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(CategoryAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        qs = super(CategoryAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
-
 
 @admin.register(Tag, site=custom_site)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time', 'owner')
     fields = ('name', 'status')
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(TagAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        qs = super(TagAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
 
 
 class CategoryOwnerFilter(admin.SimpleListFilter):
@@ -69,11 +54,11 @@ class CategoryOwnerFilter(admin.SimpleListFilter):
 
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     list_display = ['title', 'category', 'status', 'created_time', 'operator', 'owner']
     list_display_links = []
 
-    list_filter = [CategoryOwnerFilter]
+    list_filter = [CategoryOwnerFilter, ]
     search_fields = ['title', 'category__name']
 
     actions_on_top = True
@@ -102,11 +87,3 @@ class PostAdmin(admin.ModelAdmin):
         )
 
     operator.short_description = '操作'
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(PostAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        qs = super(PostAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
