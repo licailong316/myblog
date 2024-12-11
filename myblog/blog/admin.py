@@ -11,8 +11,15 @@ class LogEntryAdmin(admin.ModelAdmin):
     list_display = ('object_repr', 'object_id', 'action_flag', 'user', 'change_message')
 
 
+class PostInline(admin.TabularInline):
+    fields = ('title', 'desc')
+    extra = 1
+    model = Post
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    inlines = [PostInline]
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count', 'owner')
     fields = ('name', 'status', 'is_nav',)
 
