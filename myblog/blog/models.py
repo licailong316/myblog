@@ -99,5 +99,16 @@ class Post(models.Model):
 
     @classmethod
     def latest_posts(cls):
-        """返回最新文章列表"""
+        """返回首页文章列表"""
         return cls.objects.filter(status=Post.STATUS_NORMAL).order_by('-created_time')
+
+    @classmethod
+    def get_navs(cls):
+        """用于获取所有分类，并区分是否为导航"""
+        categories = cls.objects.filter(status=cls.STATUS_NORMAL)
+        nav_categories = categories.filter(is_nav=True)
+        normal_categories = categories.filter(is_nav=False)
+        return {
+            'navs': nav_categories,
+            'categories': normal_categories,
+        }
