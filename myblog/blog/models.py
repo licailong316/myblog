@@ -80,6 +80,8 @@ class Post(models.Model):
     tag = models.ManyToManyField(Tag, verbose_name="标签")
     owner = models.ForeignKey(User, verbose_name="作者", on_delete=models.DO_NOTHING)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    pv = models.PositiveIntegerField(default=1)
+    uv = models.PositiveIntegerField(default=1)
 
     class Meta:
         verbose_name = verbose_name_plural = "文章"
@@ -118,3 +120,7 @@ class Post(models.Model):
     def latest_posts(cls):
         """返回首页文章列表"""
         return cls.objects.filter(status=Post.STATUS_NORMAL).order_by('-created_time')
+
+    @classmethod
+    def hot_posts(cls):
+        return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
