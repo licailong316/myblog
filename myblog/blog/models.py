@@ -106,8 +106,14 @@ class Post(models.Model):
     def get_navs(cls):
         """用于获取所有分类，并区分是否为导航"""
         categories = cls.objects.filter(status=cls.STATUS_NORMAL)
-        nav_categories = categories.filter(is_nav=True)
-        normal_categories = categories.filter(is_nav=False)
+        nav_categories = []
+        normal_categories = []
+        for category in categories:
+            if category.is_nav:
+                nav_categories.append(category)
+            else:
+                normal_categories.append(category)
+
         return {
             'navs': nav_categories,
             'categories': normal_categories,
