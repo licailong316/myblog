@@ -10,21 +10,11 @@ def post_list(request, category_id=None, tag_id=None):
     category = None
 
     if tag_id:
-        try:
-            tag = Tag.objects.get(id=tag_id)
-        except Tag.DoesNotExist:
-            post_lists = []
-        else:
-            post_lists = tag.post_set.filter(status=Post.STATUS_NORMAL)
+        post_lists, tag = Post.get_by_tag(tag_id)
+    elif category_id:
+        post_lists, category = Post.get_by_category(category_id)
     else:
-        post_lists = Post.objects.filter(status=Post.STATUS_NORMAL)
-        if category_id:
-            try:
-                category = Category.objects.get(id=category_id)
-            except Category.DoesNotExist:
-                category = None
-            else:
-                post_lists = post_lists.filter(category_id=category_id)
+        post_lists = Post.latest_posts()
 
     context = {
         'category': category,
