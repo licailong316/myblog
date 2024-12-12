@@ -21,6 +21,7 @@ def post_list(request, category_id=None, tag_id=None):
         'tag': tag,
         'post_list': post_lists,
     }
+    context.update(Category.get_navs())
 
     return render(request, 'blog/list.html', context=context)
 
@@ -30,10 +31,10 @@ def post_detail(request, post_id):
         post = Post.objects.get(id=post_id)
     except Post.DoesNotExist:
         post = None
-    #
-    # context = {
-    #     'post': post,
-    #     'sidebars': SideBar.get_all(),
-    # }
-    # context.update(Category.get_navs())
-    return render(request, 'blog/detail.html', context={'post': post})
+
+    context = {
+        'post': post,
+        # 'sidebars': SideBar.get_all(),
+    }
+    context.update(Category.get_navs())
+    return render(request, 'blog/detail.html', context=context)
