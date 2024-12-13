@@ -54,11 +54,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myblog.urls'
 
+THEME = 'default'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'myblog/templates'),
+            # os.path.join(BASE_DIR, 'myblog/themes/default/templates'),
+            os.path.join(BASE_DIR, 'myblog/themes', THEME, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
