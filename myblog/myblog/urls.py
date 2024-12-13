@@ -16,16 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from blog.views import post_list, post_detail
+# from blog.views import post_list, post_detail
 from config.views import links
 from myblog.custom_site import custom_site
+from blog.views import PostDetailView, IndexView, CategoryView, TagView
 
 urlpatterns = [
     path('super_admin/', admin.site.urls),
     path('admin/', custom_site.urls),
-    path('', post_list, name='index'),  # 对应首页
-    path('category/<int:category_id>/', post_list, name='category-list'),  # 分类列表
-    path('tag/<int:tag_id>/', post_list, name='tag-list'),  # 标签列表
-    path('post/<int:post_id>/', post_detail, name='post-detail'),  # 文章详情
+
+    path('', IndexView.as_view(), name='index'),  # 对应首页
+    path('category/<int:category_id>/', CategoryView.as_view(), name='category-list'),  # 分类列表
+    path('tag/<int:tag_id>/', TagView.as_view(), name='tag-list'),  # 标签列表
+    path('post/<int:post_id>/', PostDetailView.as_view(), name='post-detail'),  # 文章详情
     path('links/', links, name='links'),  # 链接页面
 ]
