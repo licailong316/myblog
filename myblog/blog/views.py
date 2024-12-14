@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
@@ -54,7 +55,9 @@ class TagView(IndexView):
         """重写queryset，根据标签过滤"""
         queryset = super().get_queryset()
         tag_id = self.kwargs.get('tag_id')
-        return queryset.filter(tag_id=tag_id)
+        print('*************************************************')
+        print(tag_id)
+        return queryset.filter(tag__id=tag_id)
 
 
 class PostDetailView(CommonViewMixin, DetailView):
@@ -62,6 +65,22 @@ class PostDetailView(CommonViewMixin, DetailView):
     template_name = 'blog/detail.html'
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
+
+
+class SearchView(IndexView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'keyword': self.request.GET.get('keyword', '')
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        keyword = self.request.GET.get('keyword')
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword))
 
 # # Create your views here.
 # def post_list(request, category_id=None, tag_id=None):
