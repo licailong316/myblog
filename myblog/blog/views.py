@@ -82,6 +82,12 @@ class SearchView(IndexView):
             return queryset
         return queryset.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword))
 
+
+class AuthorView(IndexView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author_id = self.kwargs.get('owner_id')
+        return queryset.filter(owner_id=author_id)
 # # Create your views here.
 # def post_list(request, category_id=None, tag_id=None):
 #     tag = None

@@ -19,7 +19,7 @@ from django.urls import path
 # from blog.views import post_list, post_detail
 from config.views import links
 from myblog.custom_site import custom_site
-from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchView
+from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchView, AuthorView
 
 urlpatterns = [
     path('super_admin/', admin.site.urls),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('tag/<int:tag_id>/', TagView.as_view(), name='tag-list'),  # 标签列表
     path('post/<int:post_id>/', PostDetailView.as_view(), name='post-detail'),  # 文章详情
     path('links/', links, name='links'),  # 链接页面
-    path('search/', SearchView.as_view(), name='search'),
+    path('search/', SearchView.as_view(), name='search'),   # 搜索
+    path('author/<int:owner_id>', AuthorView.as_view(), name='author'),  # 作者页面
 ]
