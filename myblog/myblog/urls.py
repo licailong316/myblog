@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from blog.rss import LatestPostFeed
+from blog.sitemap import PostSitemap
 from comment.views import CommentView
 # from blog.views import post_list, post_detail
 from config.views import LinkListView
 from myblog.custom_site import custom_site
 from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchView, AuthorView
+from django.contrib.sitemaps import views as sitemap_views
 
 urlpatterns = [
     path('super_admin/', admin.site.urls),
@@ -35,4 +38,6 @@ urlpatterns = [
     path('search/', SearchView.as_view(), name='search'),   # 搜索
     path('author/<int:owner_id>', AuthorView.as_view(), name='author'),  # 作者页面
     path('comment/', CommentView.as_view(), name='comment'),
+    path('rss/', LatestPostFeed(), name='rss'),
+    path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
 ]
