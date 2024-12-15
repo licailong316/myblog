@@ -19,7 +19,7 @@ class PostInline(admin.TabularInline):
     model = Post
 
 
-@admin.register(Category, site=custom_site)
+@admin.register(Category)
 class CategoryAdmin(BaseOwnerAdmin):
     inlines = [PostInline]
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count', 'owner')
@@ -31,7 +31,7 @@ class CategoryAdmin(BaseOwnerAdmin):
     post_count.short_description = '文章数量'
 
 
-@admin.register(Tag, site=custom_site)
+@admin.register(Tag)
 class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time', 'owner')
     fields = ('name', 'status')
@@ -53,7 +53,7 @@ class CategoryOwnerFilter(admin.SimpleListFilter):
         return queryset
 
 
-@admin.register(Post, site=custom_site)
+@admin.register(Post)
 class PostAdmin(BaseOwnerAdmin):
     list_display = ['title', 'category', 'status', 'created_time', 'operator', 'owner']
     list_display_links = []

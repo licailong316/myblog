@@ -27,8 +27,7 @@ from blog.views import PostDetailView, IndexView, CategoryView, TagView, SearchV
 from django.contrib.sitemaps import views as sitemap_views
 
 urlpatterns = [
-    path('super_admin/', admin.site.urls),
-    path('admin/', custom_site.urls),
+    path('admin/', admin.site.urls),
 
     path('', IndexView.as_view(), name='index'),  # 对应首页
     path('category/<int:category_id>/', CategoryView.as_view(), name='category-list'),  # 分类列表
