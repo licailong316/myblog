@@ -28,9 +28,10 @@
                     </li>
                 {% endfor %}
             </ul>
-            <form class="form-inline d-flex justify-content-end" action='/search/' method='GET'>
+            <!-- 搜索框和按钮对齐 -->
+            <form class="form-inline d-flex ml-auto" action="/search/" method="GET">
                 <input class="form-control" type="search" name="keyword" placeholder="Search" aria-label="Search"
-                       value="{{ keyword }}">
+                       value="">
                 <button class="btn btn-outline-success" type="submit">搜索</button>
             </form>
         </div>
